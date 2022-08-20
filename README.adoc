@@ -1,0 +1,36 @@
+= Installation
+We'll use microk8s as our k8s environment. It works nicely on Linux,
+has its own registry and is pretty easy to set up.
+
+== Install + configure microk8s
+sudo snap install microk8s --classic
+alias mkctl="microk8s kubectl"
+
+=== Configure extensions
+microk8s enable registry dns dashboard
+ 
+= Setup example app
+We'll use Tomcat with a "hello world" webapp for getting started.
+
+= Build + test image locally
+== Build Docker image
+cd app
+docker build -t k8s-playground/tomcat8 .
+
+== Test image in Docker
+docker container run -it -d --name tomcatcontainer1 -p 8082:8080 k8s-playground/tomcat8
+open http://localhost:8082/SampleWebApp/
+
+
+= Build + test image in k8s
+
+== Push image to registry
+The microk8s registry is running locally on port 32000. Let's build our image:
+
+docker build . -t localhost:32000/mytomcat8webapp:registry
+
+== Create a deployment
+
+microk8s kubectl -f deployment.yaml
+
+ 
