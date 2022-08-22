@@ -24,13 +24,40 @@ open http://localhost:8082/SampleWebApp/
 
 = Build + test image in k8s
 
-== Push image to registry
+== Tag + push image to registry
 The microk8s registry is running locally on port 32000. Let's build our image:
 
 docker build . -t localhost:32000/mytomcat8webapp:registry
+docker push localhost:32000/mytomcat8webapp:registry
 
 == Create a deployment
 
-microk8s kubectl -f deployment.yaml
 
- 
+== Create a deployment
+
+microk8s kubectl apply -f deployment.yaml
+
+=== Check status
+microk8s kubectl get all --all-namespaces
+
+==== Check pods
+microk8s kubectl get pods -l app=mytomcat8webapp-deployment
+
+=== Get summary
+microk8s kubectl describe deployments mytomcat8webapp
+
+=== Scale
+microk8s kubectl scale deployment mytomcat8webapp-deployment --replicas=3
+
+== Expose + Connect
+microk8s kubectl expose deployment mytomcat8webapp-deployment --port=80 --target-port=8080 --type LoadBalancer
+
+Find out the IP address of your pods:
+microk8s kubectl describe svc
+
+Open one of the Endpoints in your browser, e.g. 10.1.0.19:8080 
+Et voilà - you've got a running webapp in K8s!
+
+= TODO
+* configure ingress for exposing app
+
