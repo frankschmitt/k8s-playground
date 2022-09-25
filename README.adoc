@@ -32,9 +32,6 @@ docker push localhost:32000/mytomcat8webapp:registry
 
 == Create a deployment
 
-
-== Create a deployment
-
 microk8s kubectl apply -f deployment.yaml
 
 === Check status
@@ -55,7 +52,7 @@ microk8s kubectl expose deployment mytomcat8webapp-deployment --port=80 --target
 Find out the IP address of your pods:
 microk8s kubectl describe svc
 
-Open one of the Endpoints in your browser, e.g. 10.1.0.19:8080 
+Open one of the Endpoints in your browser, e.g. http://10.1.0.19:8080/SampleWebApp
 Et voilà - you've got a running webapp in K8s!
 
 = Setup Ingress

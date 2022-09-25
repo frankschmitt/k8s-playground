@@ -18,3 +18,4 @@ spec:
         image: localhost:32000/mytomcat8webapp:registry
         ports:
         - containerPort: 8080
+          protocol: TCP
