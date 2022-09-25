@@ -7,7 +7,7 @@ sudo snap install microk8s --classic
 alias mkctl="microk8s kubectl"
 
 === Configure extensions
-microk8s enable registry dns dashboard
+microk8s enable registry dns dashboard ingress
  
 = Setup example app
 We'll use Tomcat with a "hello world" webapp for getting started.
@@ -49,7 +49,7 @@ microk8s kubectl describe deployments mytomcat8webapp
 === Scale
 microk8s kubectl scale deployment mytomcat8webapp-deployment --replicas=3
 
-== Expose + Connect
+== Expose as LoadBalancer + Connect
 microk8s kubectl expose deployment mytomcat8webapp-deployment --port=80 --target-port=8080 --type LoadBalancer
 
 Find out the IP address of your pods:
@@ -58,6 +58,18 @@ microk8s kubectl describe svc
 Open one of the Endpoints in your browser, e.g. 10.1.0.19:8080 
 Et voilà - you've got a running webapp in K8s!
 
-= TODO
-* configure ingress for exposing app
+= Setup Ingress
+== Provide service definition for your app
+microk8s kubectl apply -f service.yaml
 
+== Provide ingress definition
+microk8s kubectl apply -f ingress.yaml
+
+== Check it
+microk8s kubectl get ingress
+
+== Show endpoints
+microk8s kubectl describe ingress http-ingress
+
+
+open http://localhost/app1 - this should show your running mytomcat8webapp
