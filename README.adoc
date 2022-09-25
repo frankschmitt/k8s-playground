@@ -1,10 +1,12 @@
+= Synopsis
+Playing around with K8s (Kubernetes).
+
 = Installation
 We'll use microk8s as our k8s environment. It works nicely on Linux,
 has its own registry and is pretty easy to set up.
 
 == Install + configure microk8s
 sudo snap install microk8s --classic
-alias mkctl="microk8s kubectl"
 
 === Configure extensions
 microk8s enable registry dns dashboard ingress
