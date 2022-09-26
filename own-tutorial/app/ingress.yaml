@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: http-ingress
+  name: mytomcat8webapp-ingress
   labels:
     app: mywebapps
   annotations:
@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: mytomcat8webapp
+            name: mytomcat8webapp-svc
             port: 
               number: 8080

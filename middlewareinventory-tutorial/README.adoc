@@ -1,0 +1,16 @@
+= SYNOPSIS
+Complete ingress example with 3 apps, taken from
+[Middlewareinventory|https://www.middlewareinventory.com/blog/kubernetes-ingress-example/] and adapted to K8s API V1
+
+= RUN IT
+kubectl apply -f deployment-app1.yaml
+kubectl apply -f deployment-app2.yaml
+kubectl apply -f deployment-app3.yaml
+kubectl apply -f service-app1.yaml
+kubectl apply -f service-app2.yaml
+kubectl apply -f service-app3.yaml
+kubectl apply -f ingress.yaml
+
+= TEST IT
+open http://localhost/v1 resp. v2 and v3
+*CAVEAT* v1 isn't working currently, but v2 and v3 are. 

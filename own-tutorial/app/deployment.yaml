@@ -3,15 +3,15 @@ kind: Deployment
 metadata:
   name: mytomcat8webapp-deployment
   labels:
-    app: tomcat8
+    app: mytomcat8webapp
 spec:
   selector:
     matchLabels:
-      app: tomcat8
+      app: mytomcat8webapp
   template:
     metadata:
       labels:
-        app: tomcat8
+        app: mytomcat8webapp
     spec:
       containers:
       - name: tomcat8

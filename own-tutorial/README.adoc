@@ -6,22 +6,22 @@ We'll use microk8s as our k8s environment. It works nicely on Linux,
 has its own registry and is pretty easy to set up.
 
 == Install + configure microk8s
-sudo snap install microk8s --classic
+`sudo snap install microk8s --classic`
 
 === Configure extensions
-microk8s enable registry dns dashboard ingress
+`microk8s enable registry dns dashboard ingress`
  
 = Setup example app
 We'll use Tomcat with a "hello world" webapp for getting started.
 
 = Build + test image locally
 == Build Docker image
-cd app
-docker build -t k8s-playground/tomcat8 .
+`cd app
+docker build -t k8s-playground/tomcat8 .`
 
 == Test image in Docker
-docker container run -it -d --name tomcatcontainer1 -p 8082:8080 k8s-playground/tomcat8
-open http://localhost:8082/SampleWebApp/
+`docker container run -it -d --name tomcatcontainer1 -p 8082:8080 k8s-playground/tomcat8`
+`open http://localhost:8082/SampleWebApp/`
 
 
 = Build + test image in k8s
@@ -29,8 +29,10 @@ open http://localhost:8082/SampleWebApp/
 == Tag + push image to registry
 The microk8s registry is running locally on port 32000. Let's build our image:
 
-docker build . -t localhost:32000/mytomcat8webapp:registry
-docker push localhost:32000/mytomcat8webapp:registry
+`docker build . -t localhost:32000/mytomcat8webapp:registry`
+`docker push localhost:32000/mytomcat8webapp:registry`
+
+In case you're getting an error "connect: connection refused", wait a couple of minutes and re-try the command. 
 
 == Create a deployment
 
@@ -39,8 +41,14 @@ microk8s kubectl apply -f deployment.yaml
 === Check status
 microk8s kubectl get all --all-namespaces
 
+This should return
+- one pod (for your app, Status Running)
+- one service (kuebernetes)
+- one deployment (for your app)
+- one replicaset (for your app)
+
 ==== Check pods
-microk8s kubectl get pods -l app=mytomcat8webapp-deployment
+microk8s kubectl get pods -l app=mytomcat8webapp
 
 === Get summary
 microk8s kubectl describe deployments mytomcat8webapp
@@ -68,7 +76,32 @@ microk8s kubectl apply -f ingress.yaml
 microk8s kubectl get ingress
 
 == Show endpoints
-microk8s kubectl describe ingress http-ingress
+microk8s kubectl describe ingress mytomcat8webapp-ingress
 
 
 open http://localhost/app1 - this should show your running mytomcat8webapp
+
+= CLEANUP
+In case you want to re-start from scratch, do
+`kubectl delete -f ingress.yaml
+kubectl delete -f service.yaml
+kubectl delete -f deployment.yaml`
+
+If you renamed some / all of your objects, you can still manually get rid of them. E.g. to get rid of a leftover service, run
+
+`kubectl get services`
+
+to get its name, followed by
+
+`kubectl delete service <your_service_name>`
+
+After the cleanup, you should only have
+- one service (kubernetes)
+- zero pods
+- zero deployments
+- zero ingresses
+
+= CLEAN SLATE
+If you messed up completely, you can return Microk8s to its default state with
+`sudo microk8s reset`
+*CAVEAT* This will remove all add-ons, pods, services, namespaces etc. You've been warned.
