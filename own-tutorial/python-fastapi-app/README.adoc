@@ -2,8 +2,27 @@
 Simple FastAPI web app
 
 == Install
-poetry init
+cd app; poetry init
 
 == Run
+cd app
 poetry run uvicorn main:app --reload
 open http://localhost:8000
+
+
+== Build docker
+docker build -t localhost:32000/myfastapiapp:registry .
+docker push localhost:32000/myfastapiapp:registry
+
+== Run docker
+docker run -p 8000:8000 myfastapiapp:latest
+open http://localhost:8000
+
+
+== Deploy K8s
+cd k8s
+microk8s kubectl apply -f .
+
+== Check K8s
+microk8s kubectl get pods # should show myfastapiapp... as Running
+
