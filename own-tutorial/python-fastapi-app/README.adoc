@@ -1,0 +1,9 @@
+== Synopsis
+Simple FastAPI web app
+
+== Install
+poetry init
+
+== Run
+poetry run uvicorn main:app --reload
+open http://localhost:8000

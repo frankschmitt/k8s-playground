@@ -1,0 +1,6 @@
+== Synopsis
+K8s (kubernetes) playground
+
+== Structure
+own-tutorial/
+  Tutorial by Frank Schmitt (that's me), using Microk8s

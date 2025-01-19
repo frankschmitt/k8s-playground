@@ -11,6 +11,9 @@ has its own registry and is pretty easy to set up.
 === Configure extensions
 `microk8s enable registry dns dashboard ingress`
  
+== Open dashboard
+microk8s dashboard-proxy
+
 = Setup example app
 We'll use Tomcat with a "hello world" webapp for getting started.
 
